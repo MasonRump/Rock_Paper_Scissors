@@ -101,10 +101,10 @@ public class RockPaperScissorsFrame extends JFrame {
         resultsArea = new JTextArea();
         resultsArea.setEditable(false);
 
-        JScrollPane scrollpane = new JScrollPane(resultsArea);
+        JScrollPane scrollPane = new JScrollPane(resultsArea);
         scrollPane.setBorder(BorderFactory.createTitledBorder("Results"));
 
-        return scrollpane;
+        return scrollPane;
     }
 
     private class LeastUsedStrategy implements Strategy {
@@ -166,5 +166,32 @@ public class RockPaperScissorsFrame extends JFrame {
         lastMove = playerMove;
     }
 
-    
+    private void updateCounts(String playerMove) {
+        if (playerMove.equals("R")) rockCount++;
+        else if (playerMove.equals("P")) paperCount++;
+        else if (playerMove.equals("S")) scissorsCount++;
+    }
+
+    private String determineWinner(String playerMove, String computerMove) {
+        if (playerMove.equals(computerMove)) {
+            ties++;
+            return "It is a Tie!";
+        }
+
+        if ((playerMove.equals("R") && computerMove.equals("S")) ||
+            (playerMove.equals("P") && computerMove.equals("R")) ||
+            (playerMove.equals("S") && computerMove.equals("P"))) {
+            playerWins++;
+            return playerMove + " beats " + computerMove + ". Player Wins!";
+        } else {
+            computerWins++;
+            return computerMove + " beats " + playerMove + ". Computer Wins!";
+        }
+    }
+
+    private void updateStats() {
+        playerWinsField.setText(String.valueOf(playerWins));
+        computerWinsField.setText(String.valueOf(computerWins));
+        tiesField.setText(String.valueOf(ties));
+    }
 }
